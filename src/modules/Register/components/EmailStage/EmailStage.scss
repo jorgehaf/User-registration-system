@@ -1,0 +1,43 @@
+form {
+  display: flex;
+  flex-direction: column;
+  margin-top: 0.5rem;
+
+  #form-title {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin: 0;
+  }
+
+  label {
+    text-align: left;
+    margin-top: 1rem;
+    margin-bottom: 0.5em;
+  }
+
+  input[type="email"] {
+    padding: 0.5em;
+    margin-bottom: 1em;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
+  .radio-group {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1em;
+  }
+
+  button {
+    background-color: orange;
+    color: white;
+    padding: 0.75em;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background-color: darkorange;
+  }
+}

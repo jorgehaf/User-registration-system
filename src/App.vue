@@ -1,11 +1,16 @@
 <script setup>
+import Register from './modules/Register/Register.vue';
 </script>
 
 <template>
   <div>
-    Sistema de cadastro de usuário
+    <Register/>
   </div>
 </template>
 
-<style scoped>
+<style>
+html, body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+}
 </style>
