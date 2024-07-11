@@ -32,6 +32,12 @@
         @backPasswordStage="backPasswordStage"
         @confirmPasswordStage="confirmPasswordStage"
       />
+
+      <ReviewStage
+        v-if="stage === STAGES.REVIEW"
+        @backReviewStage="backReviewStage"
+        @confirmReviewStage="confirmReviewStage"
+      />
     </div>
   </div>
 </template>
@@ -43,6 +49,7 @@ import EmailStage from "./components/EmailStage/EmailStage.vue";
 import PhysicalPersonStage from "./components/PhysicalPersonStage/PhysicalPersonStage.vue";
 import LegalPersonStage from "./components/LegalPersonStage/LegalPersonStage.vue";
 import PasswordStage from "./components/PasswordStage/PasswordStage.vue";
+import ReviewStage from "./components/ReviewStage/ReviewStage.vue";
 
 const stage = ref(1);
 const personType = ref("");
@@ -88,6 +95,16 @@ const confirmPasswordStage = (data) => {
   console.log("confirmPasswordStage: ", data);
 
   stage.value = STAGES.REVIEW;
+};
+
+const backReviewStage = (data) => {
+  console.log("backReviewStage: ", data);
+
+  stage.value = STAGES.PASSWORD;
+};
+
+const confirmReviewStage = (data) => {
+  console.log("confirmReviewStage: ", data);
 };
 </script>
 
