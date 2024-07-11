@@ -1,7 +1,10 @@
 <template>
   <form
     @submit.prevent="
-      $emit('confirmPhysicalPersonStage', { name, cpf, date, number })
+      $emit('handleStage', {
+        stage: STAGES.PASSWORD,
+        infos: { name, cpf, birthDate, number },
+      })
     "
   >
     <p id="form-title">Pessoa Física(a)</p>
@@ -19,8 +22,8 @@
       required
     />
 
-    <label for="date">Data de nascimento</label>
-    <input id="date" type="date" v-model="date" />
+    <label for="birthDate">Data de nascimento</label>
+    <input id="birthDate" type="date" v-model="birthDate" />
 
     <label for="number">Telefone</label>
     <input
@@ -33,7 +36,16 @@
     />
 
     <div class="buttons-group">
-      <button @click="$emit('backPhysicalPersonStage')">Voltar</button>
+      <button
+        @click.prevent="
+          $emit('handleStage', {
+            stage: STAGES.EMAIL,
+            infos: { name: '', cpf: '', birthDate: '', number: '' },
+          })
+        "
+      >
+        Voltar
+      </button>
       <button type="submit">Continuar</button>
     </div>
   </form>
@@ -41,11 +53,16 @@
 
 <script setup>
 import { ref } from "vue";
+import { STAGES } from "../../../../enums/registrationStages";
 
-const name = ref("");
-const cpf = ref("");
-const date = ref("");
-const number = ref("");
+const props = defineProps({
+  userInfo: Object,
+});
+
+const name = ref(props.userInfo.name || "");
+const cpf = ref(props.userInfo.cpf || "");
+const birthDate = ref(props.userInfo.birthDate || "");
+const number = ref(props.userInfo.number || "");
 
 const formatNumber = (event) => {
   let input = event.target.value.replace(/\D/g, "");

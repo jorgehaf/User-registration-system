@@ -1,12 +1,22 @@
 <template>
-  <form @submit.prevent="$emit('confirmPasswordStage', { password })">
+  <form
+    @submit.prevent="
+      $emit('handleStage', { stage: STAGES.REVIEW, infos: { password } })
+    "
+  >
     <p id="form-title">Senha de acesso</p>
 
     <label for="password">Sua senha</label>
     <input type="password" id="password" v-model="password" required />
 
     <div class="buttons-group">
-      <button @click="$emit('backPasswordStage')">Voltar</button>
+      <button
+        @click.prevent="
+          $emit('handleStage', { stage: STAGES.REVIEW, infos: { password } })
+        "
+      >
+        Voltar
+      </button>
       <button type="submit">Continuar</button>
     </div>
   </form>
@@ -14,8 +24,13 @@
 
 <script setup>
 import { ref } from "vue";
+import { STAGES } from "../../../../enums/registrationStages";
 
-const password = ref("");
+const props = defineProps({
+  userInfo: Object,
+});
+
+const password = ref(props.userInfo.password || "");
 </script>
 
 <style scoped>

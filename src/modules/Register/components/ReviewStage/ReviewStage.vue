@@ -1,11 +1,19 @@
 <template>
   <form
     @submit.prevent="
-      $emit('confirmReviewStage', {
-        corporateReason,
-        cnpj,
-        openingDate,
-        corporateNumber,
+      $emit('handleStage', {
+        stage: STAGES.EMAIL,
+        infos: {
+          email,
+          name,
+          cpf,
+          birthDate,
+          number,
+          corporateName,
+          cnpj,
+          corporateOpeningDate,
+          password,
+        },
       })
     "
   >
@@ -14,19 +22,27 @@
     <label for="email">Endereço de e-mail</label>
     <input type="email" id="email" v-model="email" required />
 
-    <label for="name">Nome</label>
-    <input type="text" id="name" v-model="name" required />
-
-    <label for="corporateReason">Razão social</label>
+    <label v-if="isPhysicalPerson" for="name">Nome</label>
     <input
+      v-if="isPhysicalPerson"
       type="text"
-      id="corporateReason"
-      v-model="corporateReason"
+      id="name"
+      v-model="name"
       required
     />
 
-    <label for="cpf">CPF</label>
+    <label v-if="isLegalPerson" for="corporateName">Razão social</label>
     <input
+      v-if="isLegalPerson"
+      type="text"
+      id="corporateName"
+      v-model="corporateName"
+      required
+    />
+
+    <label v-if="isPhysicalPerson" for="cpf">CPF</label>
+    <input
+      v-if="isPhysicalPerson"
       type="text"
       id="cpf"
       v-model="cpf"
@@ -35,8 +51,9 @@
       required
     />
 
-    <label for="cnpj">CNPJ</label>
+    <label v-if="isLegalPerson" for="cnpj">CNPJ</label>
     <input
+      v-if="isLegalPerson"
       type="text"
       id="cnpj"
       v-model="cnpj"
@@ -45,39 +62,77 @@
       required
     />
 
-    <label for="date">Data de nascimento</label>
-    <input id="date" type="date" v-model="date" />
-
-    <label for="openingDate">Data de abertura</label>
-    <input id="openingDate" type="date" v-model="openingDate" />
-
-    <label for="corporateNumber">Telefone</label>
+    <label v-if="isPhysicalPerson" for="birthDate">Data de nascimento</label>
     <input
-      id="corporateNumber"
+      v-if="isPhysicalPerson"
+      id="birthDate"
+      type="date"
+      v-model="birthDate"
+    />
+
+    <label v-if="isLegalPerson" for="corporateOpeningDate"
+      >Data de abertura</label
+    >
+    <input
+      v-if="isLegalPerson"
+      id="corporateOpeningDate"
+      type="date"
+      v-model="corporateOpeningDate"
+    />
+
+    <label for="number">Telefone</label>
+    <input
+      id="number"
       type="tel"
-      v-model="corporateNumber"
+      v-model="number"
       @input="formatNumber"
       placeholder="(__)_____-____"
       required
     />
 
+    <label for="password">Sua senha</label>
+    <input type="password" id="password" v-model="password" required />
+
     <div class="buttons-group">
-      <button @click="$emit('backReviewStage')">Voltar</button>
+      <button
+        @click.prevent="
+          $emit('handleStage', {
+            stage: STAGES.PASSWORD,
+            infos: { ...userInfo },
+          })
+        "
+      >
+        Voltar
+      </button>
       <button type="submit">Cadastrar</button>
     </div>
   </form>
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
+import { STAGES, PERSON } from "../../../../enums/registrationStages";
 
-const email = ref("");
-const name = ref("");
-const corporateReason = ref("");
-const cnpj = ref("");
-const date = ref("");
-const openingDate = ref("");
-const corporateNumber = ref("");
+const props = defineProps({
+  userInfo: Object,
+});
+
+const email = ref(props.userInfo.email || "");
+const name = ref(props.userInfo.name || "");
+const cpf = ref(props.userInfo.cpf || "");
+const birthDate = ref(props.userInfo.birthDate || "");
+const number = ref(props.userInfo.number || "");
+const corporateName = ref(props.userInfo.corporateName || "");
+const cnpj = ref(props.userInfo.cnpj || "");
+const corporateOpeningDate = ref(props.userInfo.corporateOpeningDate || "");
+const password = ref(props.userInfo.password || "");
+
+const isPhysicalPerson = computed(() => {
+  return props.userInfo.personType === PERSON.PHYSICAL_PERSON;
+});
+const isLegalPerson = computed(() => {
+  return props.userInfo.personType === PERSON.LEGAL_PERSON;
+});
 
 const formatNumber = (event) => {
   let input = event.target.value.replace(/\D/g, "");

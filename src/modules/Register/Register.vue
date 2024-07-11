@@ -2,48 +2,44 @@
   <div class="register">
     <div class="register-form">
       <p>
-        Etapa <span class="stage">{{ stage }}</span> de 4
+        Etapa <span class="stage">{{ stage }}</span> de 4 teste:
       </p>
 
       <EmailStage
-        v-if="stage === STAGES.EMAIL"
-        @confirmEmailStage="confirmEmailStage"
+        v-if="isEmailStage"
+        @handleStage="handleStage"
+        :userInfo="userInfo"
       />
 
       <PhysicalPersonStage
-        v-if="
-          stage === STAGES.PHYSICAL_PERSON &&
-          personType === PERSON.PHYSICAL_PERSON
-        "
-        @backPhysicalPersonStage="backPhysicalPersonStage"
-        @confirmPhysicalPersonStage="confirmPhysicalPersonStage"
+        v-if="isPhysicalPerson"
+        @handleStage="handleStage"
+        :userInfo="userInfo"
       />
 
       <LegalPersonStage
-        v-if="
-          stage === STAGES.LEGAL_PERSON && personType === PERSON.LEGAL_PERSON
-        "
-        @backLegalPersonStage="backLegalPersonStage"
-        @confirmLegalPersonStage="confirmLegalPersonStage"
+        v-if="isLegalPerson"
+        @handleStage="handleStage"
+        :userInfo="userInfo"
       />
 
       <PasswordStage
-        v-if="stage === STAGES.PASSWORD"
-        @backPasswordStage="backPasswordStage"
-        @confirmPasswordStage="confirmPasswordStage"
+        v-if="isPasswordStage"
+        @handleStage="handleStage"
+        :userInfo="userInfo"
       />
 
       <ReviewStage
-        v-if="stage === STAGES.REVIEW"
-        @backReviewStage="backReviewStage"
-        @confirmReviewStage="confirmReviewStage"
+        v-if="isReviewStage"
+        @handleStage="handleStage"
+        :userInfo="userInfo"
       />
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import { STAGES, PERSON } from "../../enums/registrationStages.js";
 import EmailStage from "./components/EmailStage/EmailStage.vue";
 import PhysicalPersonStage from "./components/PhysicalPersonStage/PhysicalPersonStage.vue";
@@ -52,59 +48,53 @@ import PasswordStage from "./components/PasswordStage/PasswordStage.vue";
 import ReviewStage from "./components/ReviewStage/ReviewStage.vue";
 
 const stage = ref(1);
-const personType = ref("");
+const isEmailStage = computed(() => {
+  return stage.value === STAGES.EMAIL;
+});
+const isPhysicalPerson = computed(() => {
+  return (
+    stage.value === STAGES.PHYSICAL_PERSON &&
+    userInfo.value.personType === PERSON.PHYSICAL_PERSON
+  );
+});
+const isLegalPerson = computed(() => {
+  return (
+    stage.value === STAGES.LEGAL_PERSON &&
+    userInfo.value.personType === PERSON.LEGAL_PERSON
+  );
+});
+const isPasswordStage = computed(() => {
+  return stage.value === STAGES.PASSWORD;
+});
+const isReviewStage = computed(() => {
+  return stage.value === STAGES.REVIEW;
+});
 
-const confirmEmailStage = (data) => {
-  console.log("confirmEmailStage: ", data);
-  personType.value = data.personType;
+const userInfo = ref({
+  email: "",
+  personType: "",
+  name: "",
+  cpf: "",
+  birthDate: "",
+  number: "",
+  corporateName: "",
+  cnpj: "",
+  corporateOpeningDate: "",
+  password: "",
+});
 
-  stage.value += 1;
+const handleStage = async (data) => {
+  userInfo.value = { ...userInfo.value, ...data.infos };
+
+  if (isReviewStage && data.stage === STAGES.EMAIL) {
+    await postUser({ data: userInfo.value });
+  } else {
+    stage.value = data.stage;
+  }
 };
 
-const backPhysicalPersonStage = (data) => {
-  console.log("backPhysicalPersonStage: ", data);
-
-  stage.value = STAGES.EMAIL;
-};
-
-const confirmPhysicalPersonStage = (data) => {
-  console.log("confirmPhysicalPersonStage: ", data);
-
-  stage.value = STAGES.PASSWORD;
-};
-
-const backLegalPersonStage = (data) => {
-  console.log("backLegalPersonStage: ", data);
-
-  stage.value = STAGES.EMAIL;
-};
-
-const confirmLegalPersonStage = (data) => {
-  console.log("confirmLegalPersonStage: ", data);
-
-  stage.value = STAGES.PASSWORD;
-};
-
-const backPasswordStage = (data) => {
-  console.log("backPasswordStage: ", data);
-
-  stage.value -= 1;
-};
-
-const confirmPasswordStage = (data) => {
-  console.log("confirmPasswordStage: ", data);
-
-  stage.value = STAGES.REVIEW;
-};
-
-const backReviewStage = (data) => {
-  console.log("backReviewStage: ", data);
-
-  stage.value = STAGES.PASSWORD;
-};
-
-const confirmReviewStage = (data) => {
-  console.log("confirmReviewStage: ", data);
+const postUser = async ({ data }) => {
+  console.log("FETCH BOLADO PARA CADASTRAR: ", data);
 };
 </script>
 

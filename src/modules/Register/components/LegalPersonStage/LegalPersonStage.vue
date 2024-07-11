@@ -1,23 +1,21 @@
 <template>
   <form
     @submit.prevent="
-      $emit('confirmLegalPersonStage', {
-        corporateReason,
-        cnpj,
-        openingDate,
-        corporateNumber,
+      $emit('handleStage', {
+        stage: STAGES.PASSWORD,
+        infos: {
+          corporateName,
+          cnpj,
+          corporateOpeningDate,
+          number,
+        },
       })
     "
   >
     <p id="form-title">Pessoa Jurídica</p>
 
-    <label for="corporateReason">Razão social</label>
-    <input
-      type="text"
-      id="corporateReason"
-      v-model="corporateReason"
-      required
-    />
+    <label for="corporateName">Razão social</label>
+    <input type="text" id="corporateName" v-model="corporateName" required />
 
     <label for="cnpj">CNPJ</label>
     <input
@@ -29,21 +27,39 @@
       required
     />
 
-    <label for="openingDate">Data de abertura</label>
-    <input id="openingDate" type="date" v-model="openingDate" />
-
-    <label for="corporateNumber">Telefone</label>
+    <label for="corporateOpeningDate">Data de abertura</label>
     <input
-      id="corporateNumber"
+      id="corporateOpeningDate"
+      type="date"
+      v-model="corporateOpeningDate"
+    />
+
+    <label for="number">Telefone</label>
+    <input
+      id="number"
       type="tel"
-      v-model="corporateNumber"
+      v-model="number"
       @input="formatNumber"
       placeholder="(__)_____-____"
       required
     />
 
     <div class="buttons-group">
-      <button @click="$emit('backLegalPersonStage')">Voltar</button>
+      <button
+        @click.prevent="
+          $emit('handleStage', {
+            stage: STAGES.EMAIL,
+            infos: {
+              corporateName: '',
+              cnpj: '',
+              corporateOpeningDate: '',
+              number: '',
+            },
+          })
+        "
+      >
+        Voltar
+      </button>
       <button type="submit">Continuar</button>
     </div>
   </form>
@@ -51,11 +67,16 @@
 
 <script setup>
 import { ref } from "vue";
+import { STAGES } from "../../../../enums/registrationStages";
 
-const corporateReason = ref("");
-const cnpj = ref("");
-const openingDate = ref("");
-const corporateNumber = ref("");
+const props = defineProps({
+  userInfo: Object,
+});
+
+const corporateName = ref(props.userInfo.corporateName || "");
+const cnpj = ref(props.userInfo.cnpj || "");
+const corporateOpeningDate = ref(props.userInfo.corporateOpeningDate || "");
+const number = ref(props.userInfo.number || "");
 
 const formatNumber = (event) => {
   let input = event.target.value.replace(/\D/g, "");
@@ -67,7 +88,7 @@ const formatNumber = (event) => {
     )}-${input.substring(7, 11)}`;
   }
 
-  corporateNumber.value = input;
+  number.value = input;
 };
 
 const formatCnpj = (event) => {
