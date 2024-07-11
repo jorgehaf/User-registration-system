@@ -1,13 +1,13 @@
 <template>
   <form
     @submit.prevent="
-      $emit('confirmPhysicalPersonStage', { nome, cpf, date, number })
+      $emit('confirmPhysicalPersonStage', { name, cpf, date, number })
     "
   >
     <p id="form-title">Pessoa Física(a)</p>
 
-    <label for="nome">Nome</label>
-    <input type="text" id="nome" v-model="nome" required />
+    <label for="name">Nome</label>
+    <input type="text" id="name" v-model="name" required />
 
     <label for="cpf">CPF</label>
     <input
@@ -42,7 +42,7 @@
 <script setup>
 import { ref } from "vue";
 
-const nome = ref("");
+const name = ref("");
 const cpf = ref("");
 const date = ref("");
 const number = ref("");
@@ -62,6 +62,10 @@ const formatNumber = (event) => {
 
 const formatCpf = (event) => {
   let input = event.target.value.replace(/\D/g, "");
+
+  if (input.length > 11) {
+    input = input.substring(0, 11);
+  }
 
   if (input.length <= 3) {
     input = input.replace(/^(\d{0,3})/, "$1");

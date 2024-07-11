@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="$emit('confirmEmailStage', { email, userType })">
+  <form @submit.prevent="$emit('confirmEmailStage', { email, personType })">
     <p id="form-title">Seja bem vindo(a)</p>
 
     <label for="email">Endereço de e-mail</label>
@@ -7,13 +7,13 @@
 
     <div class="radio-group">
       <label>
-        <input type="radio" v-model="userType" value="Pessoa física" required />
+        <input type="radio" v-model="personType" value="Pessoa física" required />
         Pessoa física
       </label>
       <label>
         <input
           type="radio"
-          v-model="userType"
+          v-model="personType"
           value="Pessoa jurídica"
           required
         />
@@ -29,7 +29,7 @@
 import { ref } from "vue";
 
 const email = ref("");
-const userType = ref("");
+const personType = ref("");
 </script>
 
 <style scoped>

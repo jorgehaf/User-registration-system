@@ -10,7 +10,17 @@
         @confirmEmailStage="confirmEmailStage"
       />
       <PhysicalPersonStage
-        v-if="stage === STAGES.PHYSICAL_PERSON"
+        v-if="
+          stage === STAGES.PHYSICAL_PERSON &&
+          personType === PERSON.PHYSICAL_PERSON
+        "
+        @backPhysicalPersonStage="backPhysicalPersonStage"
+        @confirmPhysicalPersonStage="confirmPhysicalPersonStage"
+      />
+      <LegalPersonStage
+        v-if="
+          stage === STAGES.LEGAL_PERSON && personType === PERSON.LEGAL_PERSON
+        "
         @backPhysicalPersonStage="backPhysicalPersonStage"
         @confirmPhysicalPersonStage="confirmPhysicalPersonStage"
       />
@@ -20,14 +30,17 @@
 
 <script setup>
 import { ref } from "vue";
-import { STAGES } from "../../enums/registrationStages.js";
+import { STAGES, PERSON } from "../../enums/registrationStages.js";
 import EmailStage from "./components/EmailStage/EmailStage.vue";
 import PhysicalPersonStage from "./components/PhysicalPersonStage/PhysicalPersonStage.vue";
+import LegalPersonStage from "./components/LegalPersonStage/LegalPersonStage.vue";
 
 const stage = ref(1);
+const personType = ref("");
 
 const confirmEmailStage = (data) => {
   console.log("confirmEmailStage: ", data);
+  personType.value = data.personType;
 
   if (stage.value < 4) {
     stage.value += 1;
