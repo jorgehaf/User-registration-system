@@ -1,7 +1,7 @@
 <template>
   <form
     @submit.prevent="
-      $emit('confirmPhysicalPersonStage', {
+      $emit('confirmLegalPersonStage', {
         corporateReason,
         cnpj,
         openingDate,
@@ -43,7 +43,7 @@
     />
 
     <div class="buttons-group">
-      <button @click="$emit('backPhysicalPersonStage')">Voltar</button>
+      <button @click="$emit('backLegalPersonStage')">Voltar</button>
       <button type="submit">Continuar</button>
     </div>
   </form>
