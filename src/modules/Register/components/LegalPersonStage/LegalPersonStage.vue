@@ -22,7 +22,7 @@
       type="text"
       id="cnpj"
       v-model="cnpj"
-      @input="formatCnpj"
+      @input="handleFormatCnpj"
       placeholder="__.___.___/____-__"
       required
     />
@@ -39,7 +39,7 @@
       id="number"
       type="tel"
       v-model="number"
-      @input="formatNumber"
+      @input="handleFormatNumber"
       placeholder="(__)_____-____"
       required
     />
@@ -81,6 +81,14 @@ const corporateName = ref(props.userInfo.corporateName || "");
 const cnpj = ref(props.userInfo.cnpj || "");
 const corporateOpeningDate = ref(props.userInfo.corporateOpeningDate || "");
 const number = ref(props.userInfo.number || "");
+
+const handleFormatCnpj = (event) => {
+  cnpj.value = formatCnpj(event.target.value);
+};
+
+const handleFormatNumber = (event) => {
+  number.value = formatNumber(event.target.value);
+};
 </script>
 
 <style scoped>

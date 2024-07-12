@@ -1,5 +1,5 @@
-export const formatCnpj = (event) => {
-    let input = event.target.value.replace(/\D/g, "");
+export const formatCnpj = (value) => {
+    let input = value.replace(/\D/g, "");
 
     if (input.length > 14) {
         input = input.substring(0, 14);
@@ -23,11 +23,11 @@ export const formatCnpj = (event) => {
         );
     }
 
-    cnpj.value = input;
+    return input;
 };
 
-export const formatCpf = (event) => {
-    let input = event.target.value.replace(/\D/g, "");
+export const formatCpf = (value) => {
+    let input = value.replace(/\D/g, "");
 
     if (input.length > 11) {
         input = input.substring(0, 11);
@@ -46,11 +46,11 @@ export const formatCpf = (event) => {
         );
     }
 
-    cpf.value = input;
+    return input;
 };
 
-export const formatNumber = (event) => {
-    let input = event.target.value.replace(/\D/g, "");
+export const formatNumber = (value) => {
+    let input = value.replace(/\D/g, "");
 
     if (input.length > 0) {
         input = `(${input.substring(0, 2)}) ${input.substring(
@@ -59,5 +59,5 @@ export const formatNumber = (event) => {
         )}-${input.substring(7, 11)}`;
     }
 
-    corporateNumber.value = input;
+    return input;
 };

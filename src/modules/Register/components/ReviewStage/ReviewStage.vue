@@ -46,7 +46,7 @@
       type="text"
       id="cpf"
       v-model="cpf"
-      @input="formatCpf"
+      @input="handleFormatCpf"
       placeholder="___.___.___-__"
       required
     />
@@ -57,7 +57,7 @@
       type="text"
       id="cnpj"
       v-model="cnpj"
-      @input="formatCnpj"
+      @input="handleFormatCnpj"
       placeholder="__.___.___/____-__"
       required
     />
@@ -85,7 +85,7 @@
       id="number"
       type="tel"
       v-model="number"
-      @input="formatNumber"
+      @input="handleFormatNumber"
       placeholder="(__)_____-____"
       required
     />
@@ -138,6 +138,18 @@ const isPhysicalPerson = computed(() => {
 const isLegalPerson = computed(() => {
   return props.userInfo.personType === PERSON.LEGAL_PERSON;
 });
+
+const handleFormatCnpj = (event) => {
+  cnpj.value = formatCnpj(event.target.value);
+};
+
+const handleFormatNumber = (event) => {
+  number.value = formatNumber(event.target.value);
+};
+
+const handleFormatCpf = (event) => {
+  cpf.value = formatCpf(event.target.value);
+};
 </script>
 
 <style scoped>

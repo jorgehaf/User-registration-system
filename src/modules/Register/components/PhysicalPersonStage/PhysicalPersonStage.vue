@@ -17,7 +17,7 @@
       type="text"
       id="cpf"
       v-model="cpf"
-      @input="formatCpf"
+      @input="handleFormatCpf"
       placeholder="___.___.___-__"
       required
     />
@@ -30,7 +30,7 @@
       id="number"
       type="tel"
       v-model="number"
-      @input="formatNumber"
+      @input="handleFormatNumber"
       placeholder="(__)_____-____"
       required
     />
@@ -67,6 +67,14 @@ const name = ref(props.userInfo.name || "");
 const cpf = ref(props.userInfo.cpf || "");
 const birthDate = ref(props.userInfo.birthDate || "");
 const number = ref(props.userInfo.number || "");
+
+const handleFormatNumber = (event) => {
+  number.value = formatNumber(event.target.value);
+};
+
+const handleFormatCpf = (event) => {
+  cpf.value = formatCpf(event.target.value);
+};
 </script>
 
 <style scoped>
