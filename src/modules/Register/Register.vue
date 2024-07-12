@@ -86,7 +86,7 @@ const userInfo = ref({
 const handleStage = async (data) => {
   userInfo.value = { ...userInfo.value, ...data.infos };
 
-  if (isReviewStage && data.stage === STAGES.EMAIL) {
+  if (isReviewStage.value && data.stage === STAGES.EMAIL) {
     await postUser({ data: userInfo.value });
   } else {
     stage.value = data.stage;
@@ -94,7 +94,30 @@ const handleStage = async (data) => {
 };
 
 const postUser = async ({ data }) => {
-  console.log("FETCH BOLADO PARA CADASTRAR: ", data);
+  try {
+    const response = await fetch("http://localhost:3000/registration", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    const result = await response.json();
+
+    alert(result.message);
+    stage.value = STAGES.EMAIL;
+  } catch (error) {
+    alert(result.message);
+  } finally {
+    clearUserInfo();
+  }
+};
+
+const clearUserInfo = () => {
+  Object.keys(userInfo.value).forEach((key) => {
+    userInfo.value[key] = "";
+  });
 };
 </script>
 
