@@ -32,7 +32,7 @@ $ node src/index.js
 $ npm install
 
 <h3>Compile e habilite a recarga automática para desenvolvimento, logo a aplicação estará disponível em "http://localhost:8080/"</h3>
-$ npm run serve
+$ npm run dev
 
 
 <h3>🛠 Tecnologias e bibliotecas</h3>
