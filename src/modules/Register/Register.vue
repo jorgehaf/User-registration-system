@@ -95,7 +95,7 @@ const handleStage = async (data) => {
 
 const postUser = async ({ data }) => {
   try {
-    const response = await fetch("http://localhost:3000/registration", {
+    const response = await fetch(`${import.meta.env.VITE_ENDPOINT_BACKEND}/registration`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
