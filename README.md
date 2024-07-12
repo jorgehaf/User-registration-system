@@ -14,7 +14,18 @@ Antes de começar, você vai precisar ter instalado em sua máquina as seguintes
 Além disto é bom ter um editor para trabalhar com o código como <a href="https://code.visualstudio.com/">VSCode</a>
 </p>
 
-<h2>🎲 Rodando o app</h2>
+<h2>🎲 Rodando o Backend</h2>
+
+<h3>Primeiro é necessário entrar na pasta "backend"</h3>
+$ cd .\backend
+
+<h3>Instale as dependências</h3>
+$ npm install
+
+<h3>Ainda na pasta "backend", execute o seguinte comando e o backend estará disponível em "http://localhost:3000"</h3>
+$ node src/index.js
+
+<h2>🎲 Rodando o Frontend</h2>
 
 <h3>Depois de clonar o projeto em sua maquina, acesse a pasta do projeto no terminal/cmd</h3>
 <h3>Instale as dependências</h3>
@@ -22,9 +33,6 @@ $ npm install
 
 <h3>Compile e habilite a recarga automática para desenvolvimento, logo a aplicação estará disponível em "http://localhost:8080/"</h3>
 $ npm run serve
-
-<h3>Em caso de precisar compilar e minificar para produção, rode o seguinte comando:</h3>
-$ npm run build
 
 
 <h3>🛠 Tecnologias e bibliotecas</h3>
