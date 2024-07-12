@@ -40,7 +40,7 @@
 
 <script setup>
 import { ref, computed } from "vue";
-import { STAGES, PERSON } from "../../enums/registrationStages.js";
+import { STAGES, PERSON } from "../../shared/enums/registrationStages";
 import EmailStage from "./components/EmailStage/EmailStage.vue";
 import PhysicalPersonStage from "./components/PhysicalPersonStage/PhysicalPersonStage.vue";
 import LegalPersonStage from "./components/LegalPersonStage/LegalPersonStage.vue";

@@ -24,7 +24,7 @@
 
 <script setup>
 import { ref } from "vue";
-import { STAGES } from "../../../../enums/registrationStages";
+import { STAGES } from "../../../../shared/enums/registrationStages";
 
 const props = defineProps({
   userInfo: Object,

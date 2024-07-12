@@ -67,7 +67,11 @@
 
 <script setup>
 import { ref } from "vue";
-import { STAGES } from "../../../../enums/registrationStages";
+import { STAGES } from "../../../../shared/enums/registrationStages";
+import {
+  formatCnpj,
+  formatNumber,
+} from "../../../../shared/functions/formattingFunctions";
 
 const props = defineProps({
   userInfo: Object,
@@ -77,47 +81,6 @@ const corporateName = ref(props.userInfo.corporateName || "");
 const cnpj = ref(props.userInfo.cnpj || "");
 const corporateOpeningDate = ref(props.userInfo.corporateOpeningDate || "");
 const number = ref(props.userInfo.number || "");
-
-const formatNumber = (event) => {
-  let input = event.target.value.replace(/\D/g, "");
-
-  if (input.length > 0) {
-    input = `(${input.substring(0, 2)}) ${input.substring(
-      2,
-      7
-    )}-${input.substring(7, 11)}`;
-  }
-
-  number.value = input;
-};
-
-const formatCnpj = (event) => {
-  let input = event.target.value.replace(/\D/g, "");
-
-  if (input.length > 14) {
-    input = input.substring(0, 14);
-  }
-
-  if (input.length <= 2) {
-    input = input.replace(/^(\d{0,2})/, "$1");
-  } else if (input.length <= 5) {
-    input = input.replace(/^(\d{0,2})(\d{0,3})/, "$1.$2");
-  } else if (input.length <= 8) {
-    input = input.replace(/^(\d{0,2})(\d{0,3})(\d{0,3})/, "$1.$2.$3");
-  } else if (input.length <= 12) {
-    input = input.replace(
-      /^(\d{0,2})(\d{0,3})(\d{0,3})(\d{0,4})/,
-      "$1.$2.$3/$4"
-    );
-  } else if (input.length <= 14) {
-    input = input.replace(
-      /^(\d{0,2})(\d{0,3})(\d{0,3})(\d{0,4})(\d{0,2})/,
-      "$1.$2.$3/$4-$5"
-    );
-  }
-
-  cnpj.value = input;
-};
 </script>
 
 <style scoped>
