@@ -1,12 +1,6 @@
 <h1>Sistema para cadastro de usuários</h1>
 <p>Um formulário para realizar o cadastro de usuários e enviar para um ambiente nodeJS.</p>
 
-
-<h2>Status do Projeto</h2>
-<h4> 
-	🚧  Vue.js 🚀
-</h4>
-
 <h2>Pré-requisitos</h2>
 <p>
 Antes de começar, você vai precisar ter instalado em sua máquina as seguintes ferramentas:
