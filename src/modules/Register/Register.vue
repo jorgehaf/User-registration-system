@@ -12,13 +12,13 @@
       />
 
       <PhysicalPersonStage
-        v-if="isPhysicalPerson"
+        v-if="isPhysicalPersonStage"
         @handleStage="handleStage"
         :userInfo="userInfo"
       />
 
       <LegalPersonStage
-        v-if="isLegalPerson"
+        v-if="isLegalPersonStage"
         @handleStage="handleStage"
         :userInfo="userInfo"
       />
@@ -51,13 +51,13 @@ const stage = ref(1);
 const isEmailStage = computed(() => {
   return stage.value === STAGES.EMAIL;
 });
-const isPhysicalPerson = computed(() => {
+const isPhysicalPersonStage = computed(() => {
   return (
     stage.value === STAGES.PHYSICAL_PERSON &&
     userInfo.value.personType === PERSON.PHYSICAL_PERSON
   );
 });
-const isLegalPerson = computed(() => {
+const isLegalPersonStage = computed(() => {
   return (
     stage.value === STAGES.LEGAL_PERSON &&
     userInfo.value.personType === PERSON.LEGAL_PERSON
@@ -86,27 +86,27 @@ const userInfo = ref({
 const handleStage = async (data) => {
   userInfo.value = { ...userInfo.value, ...data.infos };
 
-  if (isReviewStage.value && data.stage === STAGES.EMAIL) {
-    await postUser({ data: userInfo.value });
-  } else {
-    stage.value = data.stage;
-  }
+  if (isReviewStage.value && data.stage === STAGES.EMAIL) await postUser();
+
+  stage.value = data.stage;
 };
 
-const postUser = async ({ data }) => {
+const postUser = async () => {
   try {
-    const response = await fetch(`${import.meta.env.VITE_ENDPOINT_BACKEND}/registration`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
+    const response = await fetch(
+      `${import.meta.env.VITE_ENDPOINT_BACKEND}/registration`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(userInfo.value),
+      }
+    );
 
     const result = await response.json();
 
     alert(result.message);
-    stage.value = STAGES.EMAIL;
   } catch (error) {
     alert(result.message);
   } finally {
