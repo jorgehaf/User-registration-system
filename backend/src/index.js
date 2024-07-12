@@ -9,7 +9,7 @@ app.use(cors({
 }));
 
 app.get('/registration', (req, res) => {
-    res.send('Hello from the backend!');
+    res.send('Olá do backend!');
 });
 
 app.post('/registration', (req, res) => {
@@ -23,5 +23,5 @@ app.post('/registration', (req, res) => {
 });
 
 app.listen(port, () => {
-    console.log(`Backend server is running on http://localhost:${port}`);
+    console.log(`O servidor Backend está rodando na url http://localhost:${port}`);
 });
