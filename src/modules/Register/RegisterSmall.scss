@@ -1,0 +1,22 @@
+.register {
+  height: 100vh;
+  width: 80%;
+  max-width: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+
+  .register-form {
+    width: 100%;
+
+    .stage {
+      color: orange;
+    }
+
+    p {
+      margin: 0;
+    }
+  }
+}

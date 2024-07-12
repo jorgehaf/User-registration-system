@@ -121,6 +121,12 @@ const clearUserInfo = () => {
 };
 </script>
 
-<style scoped>
-@import "./Register.scss";
+<style lang="scss" scoped>
+@media (max-width: 1008px) {
+  @import "./RegisterSmall.scss";
+}
+
+@media (min-width: 1008px) {
+  @import "./RegisterLarge.scss";
+}
 </style>
