@@ -108,7 +108,7 @@ const postUser = async () => {
 
     alert(result.message);
   } catch (error) {
-    alert(result.message);
+    alert(error.message);
   } finally {
     clearUserInfo();
   }
